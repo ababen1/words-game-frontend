@@ -1,25 +1,21 @@
 import { useEffect, useState } from "react";
 import Letter from "./Letter";
+import type { Vector2 } from "../types/GridTypes";
 
 interface GridProps {
   cellsData: string[][];
 }
 
-interface CellCoords {
-  row: number;
-  col: number;
-}
-
 export const LettersGrid: React.FC<GridProps> = ({ cellsData }) => {
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
-  const [selectedCells, setSelectedCells] = useState<CellCoords[]>([]);
+  const [selectedCells, setSelectedCells] = useState<Vector2[]>([]);
 
-  const handleMouseDown = (cords: CellCoords) => {
+  const handleMouseDown = (cords: Vector2) => {
     setIsMouseDown(true);
     setSelectedCells([cords]);
   };
 
-  const handleMouseEnter = (cords: CellCoords) => {
+  const handleMouseEnter = (cords: Vector2) => {
     if (isMouseDown) {
       setSelectedCells((prev) => {
         if (!prev.find((c) => c.row == cords.row && c.col == cords.col)) {
@@ -37,13 +33,13 @@ export const LettersGrid: React.FC<GridProps> = ({ cellsData }) => {
 
   const getSpelledWord = (): string => {
     let word = "";
-    selectedCells.map((coords: CellCoords) => {
+    selectedCells.map((coords: Vector2) => {
       word += cellsData[coords.row][coords.col];
     });
     return word;
   };
 
-  const isCellSelected = (cell: CellCoords): boolean => {
+  const isCellSelected = (cell: Vector2): boolean => {
     return selectedCells.some((c) => c.row === cell.row && c.col === cell.col);
   };
 

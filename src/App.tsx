@@ -1,16 +1,12 @@
 import "./App.css";
 import LettersGrid from "./components/LettersGrid";
+import { generateGrid } from "./util/GridFuncs";
 
 function App() {
-  const testGrid: string[][] = [
-    ["A", "B", "C"],
-    ["D", "E", "F"],
-    ["G", "H", "I"],
-  ];
   return (
     <>
       <div>
-        <LettersGrid cellsData={testGrid} />
+        <LettersGrid cellsData={generateGrid({ row: 7, col: 7 })} />
       </div>
     </>
   );
