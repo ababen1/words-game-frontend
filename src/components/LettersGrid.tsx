@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Letter from "./Letter";
 import type { Vector2 } from "../types/GridTypes";
+import './LettersGrid.css'
 
 interface GridProps {
   cellsData: string[][];
@@ -49,9 +50,11 @@ export const LettersGrid: React.FC<GridProps> = ({ cellsData }) => {
   }, []);
 
   return (
-    <div>
-      {getSpelledWord()}
-      <table>
+    <div style={{display: "flex", flexDirection: "column"}}>
+      <div className="current-word">
+       <span>{getSpelledWord()}</span>
+      </div>
+      <table className="grid-table">
         {cellsData.map((rowData: string[], rowIndex: number) => (
           <tr key={rowIndex}>
             {rowData.map((_cell: string, colIndex: number) => (
