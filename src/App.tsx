@@ -1,15 +1,45 @@
+// Simple router setup
 import "./App.css";
-import { LettersGrid } from "@/components/word-search/LettersGrid";
-import { generateGrid } from "@/util/GridFuncs";
+import { Routes, Route, Link } from 'react-router-dom'
+import WordSearchGame from "./pages/WordSearchGame";
+
+function Home() {
+  return (
+    <div>
+      <h2>Welcome</h2>
+      <p>
+        <Link to="/game">Play Word Search</Link>
+      </p>
+    </div>
+  )
+}
+
+function NotFound() {
+  return (
+    <div>
+      <h2>404 - Not Found</h2>
+      <p>
+        <Link to="/">Go home</Link>
+      </p>
+    </div>
+  )
+}
 
 function App() {
   return (
     <>
-      <div>
-        <LettersGrid cellsData={generateGrid({ row: 7, col: 7 })} />
-      </div>
+      <nav style={{ padding: 8 }}>
+        <Link to="/">Home</Link> |{' '}
+        <Link to="/game">Word Search</Link>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/game" element={<WordSearchGame />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
-  );
+  )
 }
 
 export default App;
