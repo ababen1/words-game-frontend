@@ -5,7 +5,7 @@ export interface WordData {
     entries: object[]
 }
 
-export const wordExists = async (language: string = "en", word: string): Promise<boolean> => {
+export const wordExists = async (word: string, language: string = "en"): Promise<boolean> => {
     const wordData: WordData | undefined =  await getWordData(language, word)
     if (wordData == undefined || wordData.entries.length == 0) {
         return false
@@ -14,7 +14,7 @@ export const wordExists = async (language: string = "en", word: string): Promise
     }
 }
 
-export const getWordData = async (language: string = "en", word: string): Promise<WordData | undefined> => {
+export const getWordData = async (word: string, language: string = "en"): Promise<WordData | undefined> => {
     try {
         const response = await fetch(getURL(language, word))
         if (!response.ok) { 
@@ -29,6 +29,6 @@ export const getWordData = async (language: string = "en", word: string): Promis
     }
 }
 
-const getURL = (language: string, word: string): string => {
+const getURL = (word: string, language: string = "en"): string => {
     return url.replace("{language}", language).replace("{word}", word);
 }

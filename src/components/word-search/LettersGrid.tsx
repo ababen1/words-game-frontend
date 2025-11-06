@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Letter from "./Letter";
-import type { Vector2 } from "../types/GridTypes";
+import type { Vector2 } from "../../types/GridTypes";
 import './LettersGrid.css'
+import { wordExists } from "../../api/DictonaryAPI";
 
 interface GridProps {
   cellsData: string[][];
@@ -28,10 +29,19 @@ export const LettersGrid: React.FC<GridProps> = ({ cellsData }) => {
   };
 
   const handleMouseUp = () => {
+    checkEnteredWord(getSpelledWord())
     setIsMouseDown(false);
     setSelectedCells([]);
   };
 
+  const checkEnteredWord = async(word: string) => {
+    const isValid = await wordExists(word)
+    if (isValid) {
+      
+    } else {
+
+    }
+  } 
   const getSpelledWord = (): string => {
     let word = "";
     selectedCells.map((coords: Vector2) => {

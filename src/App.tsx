@@ -1,5 +1,5 @@
 import "./App.css";
-import LettersGrid from "./components/LettersGrid";
+import LettersGrid from "./components/word-search/LettersGrid";
 import { generateGrid } from "./util/GridFuncs";
 
 function App() {
