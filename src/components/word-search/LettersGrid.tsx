@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Letter from "./Letter";
-import type { Vector2 } from "../../types/GridTypes";
+import type { Vector2 } from "@/types/GridTypes";
 import './LettersGrid.css'
-import { wordExists } from "../../api/DictonaryAPI";
+import { wordExists } from "@/api/DictonaryAPI";
 
 interface GridProps {
   cellsData: string[][];

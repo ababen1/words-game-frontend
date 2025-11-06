@@ -1,4 +1,4 @@
-import type { Vector2 } from "../types/GridTypes";
+import type { Vector2 } from "@/types/GridTypes";
 
 const letterFrequencies: { [letter: string]: number } = {
   A: 8.2,
