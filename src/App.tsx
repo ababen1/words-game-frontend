@@ -2,6 +2,7 @@
 import "./App.css";
 import { Routes, Route, Link } from 'react-router-dom'
 import WordSearchGame from "./pages/WordSearchGame";
+import NertsGame from "./pages/NertsGame";
 
 function Home() {
   return (
@@ -30,12 +31,14 @@ function App() {
     <>
       <nav style={{ padding: 8 }}>
         <Link to="/">Home</Link> |{' '}
-        <Link to="/game">Word Search</Link>
+        <Link to="/game">Word Search</Link> |{' '}
+        <Link to="/cards">Playing Cards</Link>
       </nav>
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/game" element={<WordSearchGame />} />
+        <Route path="/cards" element={NertsGame()} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
