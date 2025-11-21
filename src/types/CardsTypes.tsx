@@ -15,7 +15,7 @@ export type Rank =
   | "QUEEN"
   | "KING";
 
-export interface PlayingCard {
+export interface PlayingCardInfo {
   rank: Rank;
   suit: Suit;
 }

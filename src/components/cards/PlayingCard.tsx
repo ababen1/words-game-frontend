@@ -1,26 +1,14 @@
-import type { Rank, Suit } from "@/types/CardsTypes";
-import { getNumericalRank, isFaceCard } from "@/util/CardsFuncs";
+import type { PlayingCardInfo } from "@/types/CardsTypes";
+import { useDraggable } from "@dnd-kit/core";
 import React from "react";
+import CardArt from "./CardArt";
 
 export interface PlayingCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  rank: Rank;
-  suit: Suit;
+  info: PlayingCardInfo
   faceUp?: boolean; // if false, shows the card back
   size?: number; // width in pixels (height calculated with 3:4 ratio)
   className?: string;
-}
-const getFilename = (rank: Rank, suit: Suit, faceUp: boolean = true) => {
-  if (!faceUp) { 
-    return "cards/BACK.svg";
-  }
-  if (suit === "JOKER") {
-    return "cards/JOKER-1.svg";
-  }
-  let name: string = `cards/${suit.toUpperCase()}-${getNumericalRank(rank)}`
-  if (isFaceCard(rank)) {
-    name += "-" + rank
-  }
-  return name + ".svg";
+  draggableId?: string;
 }
 
 /**
@@ -30,32 +18,41 @@ const getFilename = (rank: Rank, suit: Suit, faceUp: boolean = true) => {
  * - Accessible: role="img" with aria-label set to rank + suit when faceUp.
  */
 export default function PlayingCard({
-  rank,
-  suit,
+  info,
   faceUp = true,
   size = 120,
   className = "",
+  draggableId,
   ...rest
 }: PlayingCardProps) {
   const width = size;
   const height = Math.round((size / 3) * 4); // 3:4 ratio
   // aria-label for screen readers
-  const ariaLabel = faceUp ? `${rank} of ${suit}` : "Playing card, face down";
+  const ariaLabel = faceUp ? `${info.rank} of ${info.suit}` : "Playing card, face down";
+  const { attributes, listeners, setNodeRef, isDragging } =
+    useDraggable({
+      id: draggableId ?? `${info.rank}-${info.suit}`,
+    });
 
   return (
     <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
       {...rest}
       role="img"
       aria-label={ariaLabel}
-      className={`${className}`}
-      style={{ width, height }}
+      className={className}
+      style={{
+        width,
+        height,
+        userSelect: "none",
+        // vendor-prefixed property not present on React.CSSProperties; cast the whole object below
+        WebkitUserDrag: "none",
+        pointerEvents: isDragging ? "none" : "auto",
+      } as React.CSSProperties}
     >
-        <div>
-          <img 
-            src={getFilename(rank, suit, faceUp)} 
-            alt={`${rank} of ${suit}`} 
-            className="w-full h-full object-cover" />
-        </div>
+      <CardArt info={info} faceUp={faceUp} width={width} height={height} />
     </div>
   );
 }

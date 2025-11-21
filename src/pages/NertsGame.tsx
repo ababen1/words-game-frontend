@@ -1,16 +1,18 @@
-import PlayingCard from "@/components/cards/Card";
+import CardTable from "@/components/cards/CardTable";
 
 export default function NertsGame() {
-
-    const containerStyle = {
+  const containerStyle = {
     "width": "100%",
     "height": "100%",
-    "display": "flex", 
-    "gap": "16px", 
-    }        
+    "display": "flex",
+    "gap": "16px",
+  }
+
   return (
     <div style={containerStyle}>
-        <PlayingCard rank="KING" suit="SPADE" />
+      <CardTable>
+
+      </CardTable>
     </div>
   );
 }
