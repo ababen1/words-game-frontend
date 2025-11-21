@@ -38,7 +38,9 @@ export default function CardArt({
         <img
             src={getFilename(info.rank, info.suit, faceUp)}
             alt={`${info.rank} of ${info.suit}`}
-            style={{ width, height }}
-            className="w-full h-full object-cover" />
+            draggable={false}
+            style={{ width, height, pointerEvents: "none", userSelect: "none" }}
+            className="w-full h-full object-cover"
+        />
     );
 }

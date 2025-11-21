@@ -9,11 +9,12 @@ export interface PlayingCardProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: number; // width in pixels (height calculated with 3:4 ratio)
   className?: string;
   draggableId?: string;
+  draggable?: boolean;
+  hideWhileDragging?: boolean;
 }
 
 /**
  * Simple and flexible Playing Card component.
- * - Uses Tailwind classes for styling.
  * - Default size 120px width (3:4 aspect ratio -> 160px height).
  * - Accessible: role="img" with aria-label set to rank + suit when faceUp.
  */
@@ -23,6 +24,8 @@ export default function PlayingCard({
   size = 120,
   className = "",
   draggableId,
+  draggable = true,
+  hideWhileDragging = false,
   ...rest
 }: PlayingCardProps) {
   const width = size;
@@ -32,25 +35,29 @@ export default function PlayingCard({
   const { attributes, listeners, setNodeRef, isDragging } =
     useDraggable({
       id: draggableId ?? `${info.rank}-${info.suit}`,
+      disabled: !draggable,
     });
 
   return (
     <div
       ref={setNodeRef}
-      {...listeners}
-      {...attributes}
+      {...(draggable ? listeners : undefined)}
+      {...(draggable ? attributes : undefined)}
       {...rest}
       role="img"
       aria-label={ariaLabel}
       className={className}
       style={{
-        width,
-        height,
+        width: width,
+        height: height,
         userSelect: "none",
         // vendor-prefixed property not present on React.CSSProperties; cast the whole object below
         WebkitUserDrag: "none",
         pointerEvents: isDragging ? "none" : "auto",
+        touchAction: "none",
+        opacity: isDragging && hideWhileDragging ? 0 : 1,
       } as React.CSSProperties}
+      aria-hidden={isDragging && hideWhileDragging}
     >
       <CardArt info={info} faceUp={faceUp} width={width} height={height} />
     </div>
